@@ -1,32 +1,23 @@
-import { useEffect, useState } from 'react'
-import styles from './App.module.css'
-import { Todo } from './components'
+import { useState } from 'react'
+import { Todo, AddTodo, Search } from './components'
+import { useReadTodo } from './hooks'
 
 export const App = () => {
-	const [todos, setTodos] = useState([])
-	const [isLoading, setIsLoading] = useState(false)
+	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false)
+	const [searchText, setSearchText] = useState('')
 
-	useEffect(() => {
-		setIsLoading(true)
+	const { todos, isLoading } = useReadTodo(refreshTodosFlag)
 
-		fetch('https://jsonplaceholder.typicode.com/todos')
-			.then((loadedData) => loadedData.json())
-			.then((loadedTodos) => setTodos(loadedTodos))
-			.finally(() => setIsLoading(false))
-	}, [])
+	const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag)
+
+	const handleSearchChange = (value) => setSearchText(value)
 
 	return (
 		<>
 			<h1>Список задач</h1>
-			{isLoading ? (
-				<div className={styles.loader}></div>
-			) : (
-				<div>
-					{todos.map(({ id, title, completed }) => (
-						<Todo key={id} title={title} completed={completed} />
-					))}
-				</div>
-			)}
+			<Search searchText={searchText} onSearchChange={handleSearchChange} />
+			<AddTodo refreshTodos={refreshTodos} />
+			{todos.length > 0 ? <Todo todos={todos} isLoading={isLoading} refreshTodos={refreshTodos} searchText={searchText} /> : <p>Задач нет</p>}
 		</>
 	)
 }

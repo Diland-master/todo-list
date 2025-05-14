@@ -1,1 +1,6 @@
+export * from './Loader/Loader'
 export * from './Todo/Todo'
+export * from './TodoItem/TodoItem'
+export * from './AddTodo/AddTodo'
+export * from './Search/Search'
+export * from './SortingTodo/SortingTodo'

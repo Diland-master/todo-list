@@ -1,0 +1,46 @@
+.item {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+	padding-block: 20px;
+	border-top: 1px solid #ddd;
+	text-transform: capitalize;
+}
+
+.titleInput {
+	height: 24px;
+	border: 1px solid #ddd;
+	outline: none;
+	flex-grow: 1;
+}
+
+.title {
+	cursor: pointer;
+	flex-grow: 1;
+}
+
+.checkbox {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.iconButton {
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+	transition: color 0.25s ease;
+}
+
+.iconButton:hover {
+	color: #777;
+}
+
+.iconDelete {
+	color: tomato;
+}
+
+.icon {
+	width: 20px;
+	height: 20px;
+}
