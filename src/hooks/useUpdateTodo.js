@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TODOS_ENDPOINT } from '../config/api'
+import { TODOS_ENDPOINT } from '../constants'
 
 export const useUpdateTodo = (title, id, refreshTodos) => {
 	const [newTitle, setNewTitle] = useState(title)

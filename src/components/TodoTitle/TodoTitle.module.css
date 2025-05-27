@@ -1,0 +1,24 @@
+.titleTextarea {
+	border: 1px solid #ddd;
+	outline: none;
+	flex-grow: 1;
+	min-height: 100px;
+}
+
+.title {
+	cursor: pointer;
+	flex-grow: 1;
+	text-decoration: none;
+	color: inherit;
+	transition: color 0.3s ease;
+}
+
+a.title:hover {
+	color: #0076ff;
+}
+
+.ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

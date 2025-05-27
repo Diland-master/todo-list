@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Loader, SortingTodo, TodoItem } from '../../components'
-import styles from './Todo.module.css'
+import { SortingTodo, TodoItem, TodoCompletedCheckbox } from '../../components'
+import styles from './TodoList.module.css'
+import { TodoTitle } from '../TodoTitle/TodoTitle'
 
-export const Todo = ({ todos, isLoading, refreshTodos, searchText }) => {
+export const TodoList = ({ todos, refreshTodos, searchText }) => {
 	const [isSorted, setIsSorted] = useState(false)
 
 	const handleSortChange = (checked) => setIsSorted(checked)
@@ -13,13 +14,14 @@ export const Todo = ({ todos, isLoading, refreshTodos, searchText }) => {
 
 	return (
 		<>
-			{isLoading ? (
-				<Loader />
-			) : sortedTodos.length > 0 ? (
+			{sortedTodos.length > 0 ? (
 				<div className={styles.todoListWrap}>
 					<SortingTodo isSorted={isSorted} onSortChange={handleSortChange} />
 					{sortedTodos.map(({ id, title, completed }) => (
-						<TodoItem key={id} id={id} title={title} completed={completed} refreshTodos={refreshTodos} />
+						<TodoItem key={id}>
+							<TodoTitle id={id} title={title} asLink />
+							<TodoCompletedCheckbox id={id} title={title} completed={completed} refreshTodos={refreshTodos} />
+						</TodoItem>
 					))}
 				</div>
 			) : (

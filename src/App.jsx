@@ -1,23 +1,19 @@
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { MainPage, TodoPage } from './pages'
 import { useState } from 'react'
-import { Todo, AddTodo, Search } from './components'
-import { useReadTodo } from './hooks'
+import { NotFound } from './pages/NotFound/NotFound'
 
 export const App = () => {
 	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false)
-	const [searchText, setSearchText] = useState('')
-
-	const { todos, isLoading } = useReadTodo(refreshTodosFlag)
 
 	const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag)
 
-	const handleSearchChange = (value) => setSearchText(value)
-
 	return (
-		<>
-			<h1>Список задач</h1>
-			<Search searchText={searchText} onSearchChange={handleSearchChange} />
-			<AddTodo refreshTodos={refreshTodos} />
-			{todos.length > 0 ? <Todo todos={todos} isLoading={isLoading} refreshTodos={refreshTodos} searchText={searchText} /> : <p>Задач нет</p>}
-		</>
+		<Routes>
+			<Route path="/" element={<MainPage refreshTodos={refreshTodos} refreshTodosFlag={refreshTodosFlag} />} />
+			<Route path="/task/:id" element={<TodoPage refreshTodos={refreshTodos} refreshTodosFlag={refreshTodosFlag} />} />
+			<Route path="/404" element={<NotFound />} />
+			<Route path="*" element={<Navigate to="/404" />} />
+		</Routes>
 	)
 }

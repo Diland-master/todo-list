@@ -1,21 +1,32 @@
 import { useEffect, useState } from 'react'
-import { TODOS_ENDPOINT } from '../config/api'
+import { TODOS_ENDPOINT } from '../constants'
 
-export const useReadTodo = (refreshTodosFlag) => {
-	const [todos, setTodos] = useState([])
-	const [isLoading, setIsLoading] = useState(false)
+export const useReadTodo = (id, refreshTodosFlag) => {
+	const [todo, setTodo] = useState(null)
+	const [isLoadingTodo, setIsLoadingTodo] = useState(true)
+	const [isNotFound, setIsNotFound] = useState(false)
 
 	useEffect(() => {
-		setIsLoading(true)
+		setIsLoadingTodo(true)
 
-		fetch(TODOS_ENDPOINT)
-			.then((loadedData) => loadedData.json())
-			.then((loadedTodos) => setTodos(loadedTodos))
-			.finally(() => setIsLoading(false))
-	}, [refreshTodosFlag])
+		fetch(TODOS_ENDPOINT + `/${id}`)
+			.then((response) => {
+				if (!response.ok) {
+					if (response.status === 404) {
+						setIsNotFound(true)
+					}
+					throw new Error('Ошибка при загрузке задачи')
+				}
+				return response.json()
+			})
+			.then((loadedTodo) => setTodo(loadedTodo))
+			.catch(() => setTodo(null))
+			.finally(() => setIsLoadingTodo(false))
+	}, [id, refreshTodosFlag])
 
 	return {
-		todos,
-		isLoading,
+		todo,
+		isLoadingTodo,
+		isNotFound,
 	}
 }

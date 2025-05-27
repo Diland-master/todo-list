@@ -1,6 +1,9 @@
-import { TODOS_ENDPOINT } from '../config/api'
+import { useNavigate } from 'react-router-dom'
+import { TODOS_ENDPOINT } from '../constants'
 
-export const useDeleteTodo = (id, refreshTodos) => {
+export const useDeleteTodo = (id) => {
+	const navigate = useNavigate()
+
 	const handleDeleteTodo = async () => {
 		try {
 			const response = await fetch(TODOS_ENDPOINT + `/${id}`, { method: 'DELETE' })
@@ -9,7 +12,7 @@ export const useDeleteTodo = (id, refreshTodos) => {
 				throw new Error('Ошибка при удалении задачи')
 			}
 
-			refreshTodos()
+			navigate('/')
 		} catch (error) {
 			console.error('Ошибка:', error)
 		}

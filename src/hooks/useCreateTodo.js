@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TODOS_ENDPOINT } from '../config/api'
+import { TODOS_ENDPOINT } from '../constants'
 
 export const useCreateTodo = (refreshTodos) => {
 	const [value, setValue] = useState('')
