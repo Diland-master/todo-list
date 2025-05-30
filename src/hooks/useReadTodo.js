@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TODOS_ENDPOINT } from '../constants'
 
-export const useReadTodo = (id, refreshTodosFlag) => {
+export const useReadTodo = (id) => {
 	const [todo, setTodo] = useState(null)
 	const [isLoadingTodo, setIsLoadingTodo] = useState(true)
 	const [isNotFound, setIsNotFound] = useState(false)
@@ -22,7 +22,7 @@ export const useReadTodo = (id, refreshTodosFlag) => {
 			.then((loadedTodo) => setTodo(loadedTodo))
 			.catch(() => setTodo(null))
 			.finally(() => setIsLoadingTodo(false))
-	}, [id, refreshTodosFlag])
+	}, [id])
 
 	return {
 		todo,

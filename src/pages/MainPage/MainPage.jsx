@@ -2,8 +2,11 @@ import { useState } from 'react'
 import { AddTodo, Loader, Search, TodoList } from '../../components'
 import { useReadTodoList } from '../../hooks'
 
-export const MainPage = ({ refreshTodos, refreshTodosFlag }) => {
+export const MainPage = () => {
 	const [searchText, setSearchText] = useState('')
+	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false)
+
+	const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag)
 
 	const { todos, isLoading } = useReadTodoList(refreshTodosFlag)
 
@@ -14,7 +17,7 @@ export const MainPage = ({ refreshTodos, refreshTodosFlag }) => {
 			<h1>Список задач</h1>
 			<Search searchText={searchText} onSearchChange={handleSearchChange} />
 			<AddTodo refreshTodos={refreshTodos} />
-			{isLoading ? <Loader /> : todos.length > 0 ? <TodoList todos={todos} refreshTodos={refreshTodos} searchText={searchText} /> : <p>Задач нет</p>}
+			{isLoading ? <Loader /> : todos.length > 0 ? <TodoList todos={todos} searchText={searchText} /> : <p>Задач нет</p>}
 		</>
 	)
 }

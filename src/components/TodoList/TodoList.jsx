@@ -3,7 +3,7 @@ import { SortingTodo, TodoItem, TodoCompletedCheckbox } from '../../components'
 import styles from './TodoList.module.css'
 import { TodoTitle } from '../TodoTitle/TodoTitle'
 
-export const TodoList = ({ todos, refreshTodos, searchText }) => {
+export const TodoList = ({ todos, searchText }) => {
 	const [isSorted, setIsSorted] = useState(false)
 
 	const handleSortChange = (checked) => setIsSorted(checked)
@@ -20,7 +20,7 @@ export const TodoList = ({ todos, refreshTodos, searchText }) => {
 					{sortedTodos.map(({ id, title, completed }) => (
 						<TodoItem key={id}>
 							<TodoTitle id={id} title={title} asLink />
-							<TodoCompletedCheckbox id={id} title={title} completed={completed} refreshTodos={refreshTodos} />
+							<TodoCompletedCheckbox id={id} completed={completed} />
 						</TodoItem>
 					))}
 				</div>

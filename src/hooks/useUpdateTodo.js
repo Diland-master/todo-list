@@ -1,25 +1,6 @@
-import { useState } from 'react'
 import { TODOS_ENDPOINT } from '../constants'
 
-export const useUpdateTodo = (title, id, refreshTodos) => {
-	const [newTitle, setNewTitle] = useState(title)
-	const [isEditing, setIsEditing] = useState(false)
-
-	const handleTitleChange = ({ target }) => setNewTitle(target.value)
-
-	const handleTodoEdit = () => setIsEditing(true)
-
-	const handleTodoSave = async () => {
-		if (newTitle === title) {
-			setIsEditing(false)
-			return
-		}
-
-		updateTodo({ title: newTitle })
-	}
-
-	const handleCompletedChange = ({ target }) => updateTodo({ completed: target.checked })
-
+export const useUpdateTodo = (id) => {
 	const updateTodo = async (changes) => {
 		try {
 			const response = await fetch(TODOS_ENDPOINT + `/${id}`, {
@@ -31,19 +12,12 @@ export const useUpdateTodo = (title, id, refreshTodos) => {
 			if (!response.ok) {
 				throw new Error('Ошибка при обновлении задачи')
 			}
-
-			refreshTodos()
 		} catch (error) {
 			console.error('Ошибка:', error)
 		}
 	}
 
 	return {
-		newTitle,
-		isEditing,
-		handleTitleChange,
-		handleTodoEdit,
-		handleTodoSave,
-		handleCompletedChange,
+		updateTodo,
 	}
 }

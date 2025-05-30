@@ -4,10 +4,10 @@ import { Loader, TodoCompletedCheckbox, TodoItem, TodoTitle, IconButton } from '
 import { IconBack, IconDelete } from '../../icons'
 import styles from './TodoPage.module.css'
 
-export const TodoPage = ({ refreshTodos, refreshTodosFlag }) => {
+export const TodoPage = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-	const { todo, isLoadingTodo, isNotFound } = useReadTodo(id, refreshTodosFlag)
+	const { todo, isLoadingTodo, isNotFound } = useReadTodo(id)
 	const { handleDeleteTodo } = useDeleteTodo(id)
 
 	const handleGoBack = () => navigate(-1)
@@ -30,8 +30,8 @@ export const TodoPage = ({ refreshTodos, refreshTodosFlag }) => {
 			) : (
 				todo && (
 					<TodoItem>
-						<TodoTitle id={id} title={todo.title} refreshTodos={refreshTodos} />
-						<TodoCompletedCheckbox id={id} title={todo.title} completed={todo.completed} refreshTodos={refreshTodos} />
+						<TodoTitle id={id} title={todo.title} />
+						<TodoCompletedCheckbox id={id} completed={todo.completed} />
 						<IconButton className={styles.iconDelete} onClick={handleDeleteTodo}>
 							<IconDelete />
 						</IconButton>
