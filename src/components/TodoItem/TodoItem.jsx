@@ -1,8 +1,12 @@
 import styles from './TodoItem.module.css'
 import { useDeleteTodo, useUpdateTodo } from '../../hooks'
 import { IconDelete, IconEdit } from '../../icons'
+import { use } from 'react'
+import { RefreshContext } from '../../context'
 
-export const TodoItem = ({ title, completed, id, refreshTodos }) => {
+export const TodoItem = ({ title, completed, id }) => {
+	const { refreshTodos } = use(RefreshContext)
+
 	const { newTitle, isEditing, handleTitleChange, handleTodoEdit, handleTodoSave, handleCompletedChange } = useUpdateTodo(title, id, refreshTodos)
 	const { handleDeleteTodo } = useDeleteTodo(id, refreshTodos)
 

@@ -1,7 +1,11 @@
 import styles from './AddTodo.module.css'
 import { useCreateTodo } from '../../hooks'
+import { use } from 'react'
+import { RefreshContext } from '../../context'
 
-export const AddTodo = ({ refreshTodos }) => {
+export const AddTodo = () => {
+	const { refreshTodos } = use(RefreshContext)
+
 	const { value, handleChange, handleAddTodo } = useCreateTodo(refreshTodos)
 
 	return (

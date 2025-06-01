@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Todo, AddTodo, Search } from './components'
+import { Todo, AddTodo, Search, Loader } from './components'
 import { useReadTodo } from './hooks'
+import { RefreshContext } from './context'
 
 export const App = () => {
 	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false)
@@ -16,8 +17,10 @@ export const App = () => {
 		<>
 			<h1>Список задач</h1>
 			<Search searchText={searchText} onSearchChange={handleSearchChange} />
-			<AddTodo refreshTodos={refreshTodos} />
-			{todos.length > 0 ? <Todo todos={todos} isLoading={isLoading} refreshTodos={refreshTodos} searchText={searchText} /> : <p>Задач нет</p>}
+			<RefreshContext value={{ refreshTodos }}>
+				<AddTodo />
+				{isLoading ? <Loader /> : todos.length > 0 ? <Todo todos={todos} searchText={searchText} /> : <p>Задач нет</p>}
+			</RefreshContext>
 		</>
 	)
 }
