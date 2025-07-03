@@ -1,23 +1,24 @@
-import { useState } from 'react'
-import { Todo, AddTodo, Search } from './components'
-import { useReadTodo } from './hooks'
+import { useEffect } from 'react'
+import { Todo, AddTodo, Search, Loader } from './components'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectIsLoading, selectTodos } from './selectors'
+import { readTodo } from './actions'
 
 export const App = () => {
-	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false)
-	const [searchText, setSearchText] = useState('')
+	const dispatch = useDispatch()
+	const todos = useSelector(selectTodos)
+	const isLoading = useSelector(selectIsLoading)
 
-	const { todos, isLoading } = useReadTodo(refreshTodosFlag)
-
-	const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag)
-
-	const handleSearchChange = (value) => setSearchText(value)
+	useEffect(() => {
+		dispatch(readTodo())
+	}, [])
 
 	return (
 		<>
 			<h1>Список задач</h1>
-			<Search searchText={searchText} onSearchChange={handleSearchChange} />
-			<AddTodo refreshTodos={refreshTodos} />
-			{todos.length > 0 ? <Todo todos={todos} isLoading={isLoading} refreshTodos={refreshTodos} searchText={searchText} /> : <p>Задач нет</p>}
+			<Search />
+			<AddTodo />
+			{isLoading ? <Loader /> : todos.length > 0 ? <Todo /> : <p>Задач нет</p>}
 		</>
 	)
 }

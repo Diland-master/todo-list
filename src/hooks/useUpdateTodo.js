@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TODOS_ENDPOINT } from '../config/api'
 
-export const useUpdateTodo = (title, id, refreshTodos) => {
+export const useUpdateTodo = (title, id) => {
 	const [newTitle, setNewTitle] = useState(title)
 	const [isEditing, setIsEditing] = useState(false)
 
@@ -31,8 +31,6 @@ export const useUpdateTodo = (title, id, refreshTodos) => {
 			if (!response.ok) {
 				throw new Error('Ошибка при обновлении задачи')
 			}
-
-			refreshTodos()
 		} catch (error) {
 			console.error('Ошибка:', error)
 		}

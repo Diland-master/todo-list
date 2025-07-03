@@ -1,25 +1,24 @@
-import { useState } from 'react'
-import { Loader, SortingTodo, TodoItem } from '../../components'
+import { SortingTodo, TodoItem } from '../../components'
 import styles from './Todo.module.css'
+import { useSelector } from 'react-redux'
+import { selectIsSorting, selectSearchInput, selectTodos } from '../../selectors'
 
-export const Todo = ({ todos, isLoading, refreshTodos, searchText }) => {
-	const [isSorted, setIsSorted] = useState(false)
+export const Todo = () => {
+	const todos = useSelector(selectTodos)
+	const searchInput = useSelector(selectSearchInput)
+	const isSorting = useSelector(selectIsSorting)
 
-	const handleSortChange = (checked) => setIsSorted(checked)
+	const filteredTodos = todos.filter((todo) => todo.title.toLowerCase().includes(searchInput.toLowerCase()))
 
-	const filteredTodos = todos.filter((todo) => todo.title.toLowerCase().includes(searchText.toLowerCase()))
-
-	const sortedTodos = isSorted ? [...filteredTodos].sort((a, b) => a.title.localeCompare(b.title)) : filteredTodos
+	const sortedTodos = isSorting ? [...filteredTodos].sort((a, b) => a.title.localeCompare(b.title)) : filteredTodos
 
 	return (
 		<>
-			{isLoading ? (
-				<Loader />
-			) : sortedTodos.length > 0 ? (
+			{sortedTodos.length > 0 ? (
 				<div className={styles.todoListWrap}>
-					<SortingTodo isSorted={isSorted} onSortChange={handleSortChange} />
+					<SortingTodo />
 					{sortedTodos.map(({ id, title, completed }) => (
-						<TodoItem key={id} id={id} title={title} completed={completed} refreshTodos={refreshTodos} />
+						<TodoItem key={id} id={id} title={title} completed={completed} />
 					))}
 				</div>
 			) : (

@@ -1,8 +1,19 @@
+import { useState } from 'react'
 import styles from './AddTodo.module.css'
-import { useCreateTodo } from '../../hooks'
+import { useDispatch } from 'react-redux'
+import { createTodo } from '../../actions'
 
-export const AddTodo = ({ refreshTodos }) => {
-	const { value, handleChange, handleAddTodo } = useCreateTodo(refreshTodos)
+export const AddTodo = () => {
+	const dispatch = useDispatch()
+
+	const [value, setValue] = useState('')
+
+	const handleChange = ({ target }) => setValue(target.value)
+
+	const handleAddTodo = () => {
+		dispatch(createTodo(value))
+		setValue('')
+	}
 
 	return (
 		<div className={styles.wrap}>
